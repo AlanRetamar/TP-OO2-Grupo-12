@@ -9,9 +9,6 @@ import datos.Persona;
 import datos.Turno;
 
 
-
-
-
 public class PersonaAbm {
 	private static PersonaAbm instancia = null; // Patrón Singleton
 

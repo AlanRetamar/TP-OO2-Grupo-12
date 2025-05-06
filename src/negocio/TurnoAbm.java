@@ -15,10 +15,6 @@ public class TurnoAbm {
 		return instancia;
 	}
 	
-	public int agregarTurno(Turno t) {
-		return	TurnoDao.getInstance().agregarTurno(t);	
-	}
-	
 	public Turno traerTurno(int idTurno) {
 		Turno t = TurnoDao.getInstance().traerTurno(idTurno);
 		if(t == null) {
