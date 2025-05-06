@@ -30,22 +30,6 @@ public class TurnoDao {
 		tx.rollback();
 		throw new HibernateException("ERROR en la capa de acceso a datos", he);
 	}
-	
-    public int agregarTurno(Turno objeto) {
-        int id = 0;
-        try {
-            iniciaOperacion();
-            id = Integer.parseInt(session.save(objeto).toString());  // Esto lanzará ConstraintViolationException si se duplica el DNI
-            tx.commit();
-        } catch (HibernateException he) {
-            manejaExcepcion(he);
-            throw he;
-        } finally {
-            session.close();
-           
-        }
-        return id;
-    }
     
 	public Turno traerTurno(int idTurno) {
 		Turno objeto = null;
