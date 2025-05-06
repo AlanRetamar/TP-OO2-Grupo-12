@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping SYSTEM "../hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  	<class name="datos.Direccion" table="Direccion">
+	    <id column="idDireccion" name="idDireccion">
+	      <generator class="identity"/>
+	    </id>
+	    <property column="calle" name="calle" type="string"/>
+	    <property column="numero" name="numero" type="string"/>
+	    <many-to-one name="localidad" class="datos.Localidad" column="idLocalidad" not-null="true"/>
+	</class>
+</hibernate-mapping>

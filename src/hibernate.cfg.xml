@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM "hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.url">jdbc:mysql://localhost/mydb?serverTimezone=GMT-3</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">1234</property>
+    <property name="connection.pool_size">1</property>
+    <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="show_sql">false</property>    <!-- en true muestra hql en consola-->
+    <!--Mapeo Entidades   -->
+    <mapping resource="mapeos/Persona.hbm.xml"/>
+    <mapping resource="mapeos/Turno.hbm.xml"/>
+    <mapping resource="mapeos/Provincia.hbm.xml"/>    
+    <mapping resource="mapeos/Localidad.hbm.xml"/>
+    <mapping resource="mapeos/Direccion.hbm.xml"/>
+    
+  </session-factory>
+</hibernate-configuration>

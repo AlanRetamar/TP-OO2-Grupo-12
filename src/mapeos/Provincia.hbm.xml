@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping SYSTEM "../hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  	<class name="datos.Provincia" table="Provincia">
+	    <id column="idProvincia" name="idProvincia">
+	      <generator class="identity"/>
+	    </id>
+	    <property column="nombre" name="nombre" type="string"/>
+	   	<set name="localidades" cascade="save-update" table="Localidad" order-by="idLocalidad asc" inverse="true" lazy="true" fetch="join">
+	        <key column="idProvincia" not-null="true"  />
+	        <one-to-many class="datos.Localidad" />
+	    </set>
+	</class>
+</hibernate-mapping>
