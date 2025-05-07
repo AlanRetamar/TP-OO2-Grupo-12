@@ -41,14 +41,11 @@ public class PersonaAbm {
 		PersonaDao.getInstance().actualizarPersona(p);
 	}
 	
-	public void eliminarPersona(int idPersona, int idDireccion, int idTurno) {
+	public void eliminarPersona(int idPersona) {
 		//Trae a la persona por id
 		Persona p = PersonaDao.getInstance().traerPersonaYDirecciones(idPersona);
 		//Si la persona es null lanzara la excepcion
 		if (p == null) throw new NullPointerException("La persona con ID " + idPersona + " no existe.");
-		
-	    //Llama al metodo para eliminar la direccion de lista de direcciones del cliente
-		//desvincularPersonaDeDireccion(idPersona, idDireccion);
 		
 		if(p.getDirecciones() != null && !p.getDirecciones().isEmpty()) {
 			throw new IllegalStateException("La persona no se puede eliminar porque tiene tiene direcciones");
@@ -63,7 +60,6 @@ public class PersonaAbm {
 		}
 		//Si la persona es un cliente, si tiene historial de turnos va a lanzar la excepcion
 		else if(p instanceof Cliente) {
-			//desvincularClienteDeTurno(idDireccion, idTurno);
 			Cliente c = PersonaDao.getInstance().traerClienteEHistorialTurnos(idPersona);
 			if(c.getHistorialDeTurnos() != null && !c.getHistorialDeTurnos().isEmpty()) {
 				throw new IllegalStateException("El cliente no se puede eliminar porque tiene tiene turnos");
