@@ -8,16 +8,14 @@ public class TestActualizarLocalidad {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		 LocalidadAbm localidadAbm = new LocalidadAbm();
 		 int idLocalidad=1;
-		 Localidad l=localidadAbm.traerLocalidad(idLocalidad);
+		 Localidad l = LocalidadAbm.getInstance().traerLocalidad(idLocalidad);
 		 System.out.printf("Actualizando localidad con id %d\n", idLocalidad);
 		 l.setNombre("San Francisco");
 		 
-		 ProvinciaAbm provinciaAbm = new ProvinciaAbm();
 		 int idProvincia = 3;
-		 l.setProvincia(provinciaAbm.traerProvincia(idProvincia));
-		 localidadAbm.modificar(l);
+		 l.setProvincia(ProvinciaAbm.getInstance().traerProvincia(idProvincia));
+		 LocalidadAbm.getInstance().modificar(l);
 	}
 
 }

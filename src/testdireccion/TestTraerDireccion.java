@@ -8,9 +8,7 @@ public class TestTraerDireccion {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		  int idDireccion=1;
-		  DireccionAbm dirAbm = new DireccionAbm();
-		
-		  Direccion direccion = dirAbm.traerDireccion(idDireccion);
+		  Direccion direccion = DireccionAbm.getInstance().traerDireccion(idDireccion);
 		  System.out.printf("Traer Direccion idDireccion=%d\n", idDireccion);
 		  System.out.printf("\n%s\n", direccion);
 	}

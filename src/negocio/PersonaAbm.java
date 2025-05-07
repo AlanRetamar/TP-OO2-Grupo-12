@@ -154,8 +154,7 @@ public class PersonaAbm {
 	    }
 
 	    //Trae la direccion
-	    DireccionAbm direccionAbm = new DireccionAbm();
-	    Direccion direccion = direccionAbm.traerDireccion(idDireccion); 
+	    Direccion direccion = DireccionAbm.getInstance().traerDireccion(idDireccion); 
 
 	    //Si la direccion es null lanzara la excepcion
 	    if (direccion == null) {

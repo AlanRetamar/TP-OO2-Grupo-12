@@ -10,8 +10,7 @@ public class TestTraerListaDeLocalidades {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		LocalidadAbm localidadAbm = new LocalidadAbm();
-		List<Localidad> localidades = localidadAbm.traer();
+		List<Localidad> localidades = LocalidadAbm.getInstance().traer();
 		
 		for (Localidad elemento : localidades) {
 		    System.out.println(elemento);

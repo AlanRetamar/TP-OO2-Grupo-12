@@ -6,10 +6,19 @@ import dao.ProvinciaDao;
 import datos.Provincia;
 
 public class ProvinciaAbm {
-	ProvinciaDao dao = new ProvinciaDao();
+	private static ProvinciaAbm instancia = null; // Patrón Singleton
+
+	protected ProvinciaAbm() {
+	}
+
+	public static ProvinciaAbm getInstance() {
+		if (instancia == null)
+			instancia = new ProvinciaAbm();
+		return instancia;
+	}
 
 	public Provincia traerProvincia(int idProvincia) {
-		Provincia p = dao.traerProvincia(idProvincia);
+		Provincia p = ProvinciaDao.getInstance().traerProvincia(idProvincia);
 		if(p == null) {
 			throw new NullPointerException("La provincia con id " + idProvincia + " no existe");
 		}
@@ -17,15 +26,15 @@ public class ProvinciaAbm {
 	}
 
 	public int agregar(Provincia p) {
-		return dao.agregarProvincia(p);
+		return ProvinciaDao.getInstance().agregarProvincia(p);
 	}
 
 	public void modificar(Provincia p) {
-		 dao.actualizarProvincia(p);
+		ProvinciaDao.getInstance().actualizarProvincia(p);
 	}
 
 	public void eliminar(int idProvincia) {
-		Provincia p = dao.traerProvincia(idProvincia);
+		Provincia p = ProvinciaDao.getInstance().traerProvincia(idProvincia);
 		//Si es null que arroje la excepción de que la provincia no existe
 		if(p == null) {
 			throw new NullPointerException("La provincia con id " + idProvincia + " no existe");
@@ -35,15 +44,15 @@ public class ProvinciaAbm {
 		if(p2.getLocalidades() != null && !p2.getLocalidades().isEmpty()) {
 			throw new IllegalStateException("La provincia no se puede eliminar porque tiene tiene localidades");
 	    }
-		dao.eliminarProvincia(p2);
+		ProvinciaDao.getInstance().eliminarProvincia(p2);
 	}
 
 	public List<Provincia> traer() {
-		return dao.traer();
+		return ProvinciaDao.getInstance().traer();
 	}
 	
 	public Provincia traerProvinciaYLocalidades(int idProvincia) {
-		Provincia p = dao.traerProvinciaYLocalidades(idProvincia);
+		Provincia p = ProvinciaDao.getInstance().traerProvinciaYLocalidades(idProvincia);
 		//Si es null que arroje la excepción de que la provincia no existe
 		if(p == null) {
 			throw new NullPointerException("La provincia con id " + idProvincia + " no existe");

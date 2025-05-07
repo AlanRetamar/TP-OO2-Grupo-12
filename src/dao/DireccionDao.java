@@ -11,7 +11,17 @@ import datos.Direccion;
 public class DireccionDao {
 	private static Session session;
 	private Transaction tx;
+	private static DireccionDao instancia = null; // Patrón Singleton
 
+	protected DireccionDao() {
+	}
+
+	public static DireccionDao getInstance() {
+		if (instancia == null)
+			instancia = new DireccionDao();
+		return instancia;
+	}
+	
 	private void iniciaOperacion() throws HibernateException {
 		session = HibernateUtil.getSessionFactory().openSession();
 		tx = session.beginTransaction();

@@ -8,10 +8,19 @@ import datos.Direccion;
 
 
 public class DireccionAbm {
-	DireccionDao dao = new DireccionDao();
+	private static DireccionAbm instancia = null; // Patrón Singleton
+
+	protected DireccionAbm() {
+	}
+
+	public static DireccionAbm getInstance() {
+		if (instancia == null)
+			instancia = new DireccionAbm();
+		return instancia;
+	}
 
 	public Direccion traerDireccion(int idDireccion) {
-		Direccion d = dao.traer(idDireccion);
+		Direccion d = DireccionDao.getInstance().traer(idDireccion);
 		if(d == null) {
 			throw new NullPointerException("La direccion con id " + idDireccion + " no existe");
 		}
@@ -19,11 +28,11 @@ public class DireccionAbm {
 	}
 
 	public int agregar(Direccion d) {
-		return dao.agregarDireccion(d);
+		return DireccionDao.getInstance().agregarDireccion(d);
 	}
 
 	public void modificar(Direccion d) {
-		dao.actualizarDireccion(d);
+		DireccionDao.getInstance().actualizarDireccion(d);
 	}
 
 	public void eliminar(int idDireccion) {
@@ -33,11 +42,11 @@ public class DireccionAbm {
 		}
 		
 		d.setLocalidad(null);
-		dao.eliminarDireccion(d);
+		DireccionDao.getInstance().eliminarDireccion(d);
 	}
 
 	public List<Direccion> traer() {
-		return dao.traer();
+		return DireccionDao.getInstance().traer();
 	}
 
 	/*public Direccion traerDireccionYLocalidad(int idDireccion) {

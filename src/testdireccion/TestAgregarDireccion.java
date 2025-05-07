@@ -10,14 +10,11 @@ public class TestAgregarDireccion {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		LocalidadAbm locabm = new LocalidadAbm();
-		DireccionAbm dirabm = new DireccionAbm();
-		
 		int idLocalidad = 1;
-		Localidad l = locabm.traerLocalidad(idLocalidad);
+		Localidad l = LocalidadAbm.getInstance().traerLocalidad(idLocalidad);
 		Direccion d = new Direccion("centenario", "1346", l);
 		
-		int idDireccionAgregada = dirabm.agregar(d);
+		int idDireccionAgregada = DireccionAbm.getInstance().agregar(d);
         System.out.printf("Id Direccion %d: ", idDireccionAgregada);
 	}
 

@@ -11,6 +11,16 @@ import datos.Provincia;
 public class ProvinciaDao {
 	private static Session session;
 	private Transaction tx;
+	private static ProvinciaDao instancia = null; // Patrón Singleton
+
+	protected ProvinciaDao() {
+	}
+
+	public static ProvinciaDao getInstance() {
+		if (instancia == null)
+			instancia = new ProvinciaDao();
+		return instancia;
+	}
 
 	private void iniciaOperacion() throws HibernateException {
 		session = HibernateUtil.getSessionFactory().openSession();

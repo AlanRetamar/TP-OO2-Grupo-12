@@ -11,6 +11,16 @@ import datos.Localidad;
 public class LocalidadDao {
 	private static Session session;
 	private Transaction tx;
+	private static LocalidadDao instancia = null; // Patrón Singleton
+
+	protected LocalidadDao() {
+	}
+
+	public static LocalidadDao getInstance() {
+		if (instancia == null)
+			instancia = new LocalidadDao();
+		return instancia;
+	}
 
 	private void iniciaOperacion() throws HibernateException {
 		session = HibernateUtil.getSessionFactory().openSession();
