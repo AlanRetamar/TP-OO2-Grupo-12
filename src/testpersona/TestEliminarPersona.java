@@ -6,7 +6,7 @@ public class TestEliminarPersona {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int idPersona = 5;
+		int idPersona = 2;
 		int idDireccion = 2;
 		int idTurno = 1;
 	    PersonaAbm.getInstance().eliminarPersona(idPersona, idDireccion, idTurno);

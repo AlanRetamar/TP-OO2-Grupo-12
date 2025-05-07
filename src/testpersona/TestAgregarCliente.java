@@ -11,7 +11,7 @@ public class TestAgregarCliente {
 		// TODO Auto-generated method stub
 		PersonaAbm abm = PersonaAbm.getInstance();
 		// Agregar Persona Física
-		Cliente c = new Cliente("Ramon", "Sosa", 45567881, LocalDate.of(1994, 10, 19), "ramonsosa@gmail.com", "1124754590", "ramon94", "2334");
+		Cliente c = new Cliente("Luis", "Martinez", 90552881, LocalDate.of(1989, 03, 23), "martinez@gmail.com", "1124754590", "ramon94", "9314");
 		int idC = abm.agregarPersona(c);
 		System.out.println("Cliente agregado con ID: " + idC);
 	}
