@@ -41,11 +41,35 @@ public class PersonaAbm {
 		PersonaDao.getInstance().actualizarPersona(p);
 	}
 	
-	public void eliminarPersona(int idPersona) {
+	public void eliminarPersona(int idPersona, int idDireccion, int idTurno) {
 		//Trae a la persona por id
-		Persona p = PersonaDao.getInstance().traer(idPersona);
+		Persona p = PersonaDao.getInstance().traerPersonaYDirecciones(idPersona);
 		//Si la persona es null lanzara la excepcion
 		if (p == null) throw new NullPointerException("La persona con ID " + idPersona + " no existe.");
+		
+	    //Llama al metodo para eliminar la direccion de lista de direcciones del cliente
+		//desvincularPersonaDeDireccion(idPersona, idDireccion);
+		
+		if(p.getDirecciones() != null && !p.getDirecciones().isEmpty()) {
+			throw new IllegalStateException("La persona no se puede eliminar porque tiene tiene direcciones");
+	    }
+		
+		//Si la persona es un empleado, si tiene turnos va a lanzar la excepcion 
+		if(p instanceof Empleado) {
+			Empleado e = PersonaDao.getInstance().traerEmpleadoYTurnos(idPersona);
+			if(e.getTurnos() != null && !e.getTurnos().isEmpty()) {
+				throw new IllegalStateException("El empleado no se puede eliminar porque tiene tiene turnos");
+		    }
+		}
+		//Si la persona es un cliente, si tiene historial de turnos va a lanzar la excepcion
+		else if(p instanceof Cliente) {
+			//desvincularClienteDeTurno(idDireccion, idTurno);
+			Cliente c = PersonaDao.getInstance().traerClienteEHistorialTurnos(idPersona);
+			if(c.getHistorialDeTurnos() != null && !c.getHistorialDeTurnos().isEmpty()) {
+				throw new IllegalStateException("El cliente no se puede eliminar porque tiene tiene turnos");
+		    }
+		}
+		
 		PersonaDao.getInstance().eliminarPersona(p);
 	}
 	
@@ -144,6 +168,29 @@ public class PersonaAbm {
 	    PersonaDao.getInstance().actualizarClienteConTurnos(cliente); 
 	}
 	
+	public void desvincularClienteDeTurno(int idCliente, int idTurno) {
+		//Trae el cliente con todos sus turnos
+	    Cliente cliente =  PersonaDao.getInstance().traerClienteEHistorialTurnos(idCliente);
+
+	    //Si el cliente es null lanzara la excepcion
+	    if (cliente == null) {
+	        throw new NullPointerException("Cliente con id " + idCliente + " no existe.");
+	    }
+
+	    //Trae el turno
+	    Turno turno = TurnoAbm.getInstance().traerTurno(idTurno); 
+
+	    //Si el turno es null lanzara la excepcion
+	    if (turno == null) {
+	        throw new NullPointerException("Turno con id " + idTurno + " no existe.");
+	    }
+
+	    //Elimina el turno del historial de turnos del cliente
+	    cliente.getHistorialDeTurnos().remove(turno);
+	    //Delega al DAO la persistencia
+	    PersonaDao.getInstance().actualizarClienteConTurnos(cliente); 
+	}
+	
 	public void asignarPersonaADireccion(int idPersona, int idDireccion) {
 		//Trae a la persona con todas sus direcciones
 	    Persona persona =  PersonaDao.getInstance().traerPersonaYDirecciones(idPersona);
@@ -168,6 +215,29 @@ public class PersonaAbm {
 
 	    //Agrega la direccion a la lista de direcciones del cliente
 	    persona.getDirecciones().add(direccion);
+	    //Delega al DAO la persistencia
+	    PersonaDao.getInstance().actualizarPersonaConDirecciones(persona); 
+	}
+	
+	public void desvincularPersonaDeDireccion(int idPersona, int idDireccion) {
+		//Trae a la persona con todas sus direcciones
+	    Persona persona =  PersonaDao.getInstance().traerPersonaYDirecciones(idPersona);
+
+	    //Si la persona es null lanzara la excepcion
+	    if (persona == null) {
+	        throw new NullPointerException("Persona con id " + idPersona + " no existe.");
+	    }
+
+	    //Trae la direccion
+	    Direccion direccion = DireccionAbm.getInstance().traerDireccion(idDireccion); 
+
+	    //Si la direccion es null lanzara la excepcion
+	    if (direccion == null) {
+	        throw new NullPointerException("Direccion con id " + idDireccion + " no existe.");
+	    }
+
+	    //Elimina la direccion a la lista de direcciones del cliente
+	    persona.getDirecciones().remove(direccion);
 	    //Delega al DAO la persistencia
 	    PersonaDao.getInstance().actualizarPersonaConDirecciones(persona); 
 	}

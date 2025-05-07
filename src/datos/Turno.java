@@ -2,9 +2,8 @@ package datos;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Iterator;
 import java.util.Objects;
-import java.util.Set;
+
 
 public class Turno {
    private int idTurno;
