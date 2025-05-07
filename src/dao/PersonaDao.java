@@ -65,6 +65,22 @@ public class PersonaDao {
         }
     }
     
+    public void actualizarPersonaConDirecciones(Persona persona) {
+        try {
+            iniciaOperacion();
+            session.update(persona); // actualiza persona y la tabla intermedia
+            tx.commit();
+        } catch (ConstraintViolationException e) {
+            tx.rollback();
+            throw new IllegalStateException("❌ Ya existe una relación entre ese persona y esa direccion.");
+        } catch (HibernateException he) {
+            manejaExcepcion(he);
+            throw he;
+        } finally {
+            session.close();
+        }
+    }
+    
     public void actualizarClienteConTurnos(Cliente cliente) {
         try {
             iniciaOperacion();
@@ -117,6 +133,20 @@ public class PersonaDao {
 		}
 		return objeto;
 	}
+	
+	public Persona traerPersonaYDirecciones(int idPersona) {
+		Persona objeto = null;
+        try {
+            iniciaOperacion();            
+            String hql = "from datos.Persona p left join fetch p.direcciones where p.idPersona=:idPersona";            
+            objeto=(Persona) session.createQuery(hql).setParameter("idPersona", idPersona).uniqueResult();
+         
+        }
+ 		finally {
+ 			session.close();
+        }
+        return objeto;
+    }
 	
 
 	public Cliente traerClienteEHistorialTurnos(int idCliente) {

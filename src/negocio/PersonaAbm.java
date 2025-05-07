@@ -4,6 +4,7 @@ import java.util.List;
 
 import dao.PersonaDao;
 import datos.Cliente;
+import datos.Direccion;
 import datos.Empleado;
 import datos.Persona;
 import datos.Turno;
@@ -141,6 +142,35 @@ public class PersonaAbm {
 	    cliente.getHistorialDeTurnos().add(turno);
 	    //Delega al DAO la persistencia
 	    PersonaDao.getInstance().actualizarClienteConTurnos(cliente); 
+	}
+	
+	public void asignarPersonaADireccion(int idPersona, int idDireccion) {
+		//Trae a la persona con todas sus direcciones
+	    Persona persona =  PersonaDao.getInstance().traerPersonaYDirecciones(idPersona);
+
+	    //Si la persona es null lanzara la excepcion
+	    if (persona == null) {
+	        throw new NullPointerException("Persona con id " + idPersona + " no existe.");
+	    }
+
+	    //Trae la direccion
+	    DireccionAbm direccionAbm = new DireccionAbm();
+	    Direccion direccion = direccionAbm.traerDireccion(idDireccion); 
+
+	    //Si la direccion es null lanzara la excepcion
+	    if (direccion == null) {
+	        throw new NullPointerException("Direccion con id " + idDireccion + " no existe.");
+	    }
+
+	    //si la persona ya contiene esa direccion se lanzara la excepcion
+	    if (persona.getDirecciones().contains(direccion)) {
+	        throw new IllegalStateException("La persona con id " + idPersona + " ya está asignado a la direccion con id " + idDireccion + ".");
+	    }
+
+	    //Agrega la direccion a la lista de direcciones del cliente
+	    persona.getDirecciones().add(direccion);
+	    //Delega al DAO la persistencia
+	    PersonaDao.getInstance().actualizarPersonaConDirecciones(persona); 
 	}
 
 }

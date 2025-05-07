@@ -1,20 +1,20 @@
 package datos;
 
+import java.util.Objects;
+
 public class Direccion {
     private int idDireccion;
     private String calle;
     private String numero;
     private Localidad localidad;
-    private Persona persona;
 	
 	public Direccion(){}
 
-	public Direccion(String calle, String numero, Localidad localidad, Persona persona) {
+	public Direccion(String calle, String numero, Localidad localidad) {
 		super();
 		this.calle = calle;
 		this.numero = numero;
 		this.localidad = localidad;
-		this.persona = persona;
 	}
 
 	public int getIdDireccion() {
@@ -49,12 +49,21 @@ public class Direccion {
 		this.localidad = localidad;
 	}
 	
-	public Persona getPersona() {
-		return persona;
+	@Override
+	public int hashCode() {
+		return Objects.hash(idDireccion);
 	}
 
-	public void setPersona(Persona persona) {
-		this.persona = persona;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Direccion other = (Direccion) obj;
+		return idDireccion == other.idDireccion;
 	}
 
 	@Override

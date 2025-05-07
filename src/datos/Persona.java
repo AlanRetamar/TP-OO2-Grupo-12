@@ -1,6 +1,8 @@
 package datos;
 
 import java.time.LocalDate;
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 
 public abstract class Persona {
@@ -98,6 +100,43 @@ public abstract class Persona {
 
 	public void setDirecciones(Set<Direccion> direcciones) {
 		this.direcciones = direcciones;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(idPersona);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Persona other = (Persona) obj;
+		return idPersona == other.idPersona;
+	}
+	
+	public boolean agregar(Direccion direccion){	
+		boolean agregar=false;
+		if (! (direcciones.contains(direccion))) {
+			agregar=direcciones.add(direccion);
+		}
+		return agregar;
+	}
+
+    public boolean eliminar(Direccion direccion){    	
+    	Direccion borrar = null;  
+    	boolean eliminar = false;
+    	Iterator<Direccion> it = direcciones.iterator();
+        while ((it.hasNext()) && (borrar==null)){
+        	Direccion d = it.next();
+             if (d.equals(direccion)) borrar = d;
+        }		
+		eliminar=direcciones.remove(borrar);
+		return eliminar;
 	}
 
 	@Override

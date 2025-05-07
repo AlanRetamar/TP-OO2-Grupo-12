@@ -72,6 +72,7 @@ public class Cliente extends Persona{
 		eliminar=historialDeTurnos.remove(borrar);
 		return eliminar;
 	}
+    
 	@Override
 	public String toString() {
 		return "Cliente [idCliente=" + getIdPersona() + ", codigo=" + codigo + "]";
