@@ -7,6 +7,6 @@
 	    </id>
 	    <property column="calle" name="calle" type="string"/>
 	    <property column="numero" name="numero" type="string"/>
-	    <many-to-one name="localidad" class="datos.Localidad" column="idLocalidad" not-null="true"/>
+	    <many-to-one name="localidad" class="datos.Localidad" column="idLocalidad" not-null="false"/>
 	</class>
 </hibernate-mapping>

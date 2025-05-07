@@ -31,9 +31,8 @@ public class DireccionAbm {
 		if(d == null) {
 			throw new NullPointerException("La direccion con id " + idDireccion + " no existe");
 		}
-		if(d.getLocalidad() != null) {
-			throw new IllegalStateException("La direccion no se puede eliminar porque tiene una localidad asignada");
-	    }
+		
+		d.setLocalidad(null);
 		dao.eliminarDireccion(d);
 	}
 
