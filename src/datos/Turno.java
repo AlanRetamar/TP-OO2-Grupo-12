@@ -13,7 +13,6 @@ public class Turno {
    private String estado;
    private String servicio;
    private LocalDate fechaCreacion;
-   //private Set<Cliente> clientes;
    private Empleado empleado;
    
    public Turno(){}
@@ -85,14 +84,6 @@ public class Turno {
 		this.empleado = empleado;
 	}
 	
-	/*public Set<Cliente> getClientes() {
-		return clientes;
-	}
-
-	public void setClientes(Set<Cliente> clientes) {
-		this.clientes = clientes;
-	}*/
-	
 	@Override
 	public int hashCode() {
 		return Objects.hash(idTurno);
@@ -103,26 +94,6 @@ public class Turno {
 		Turno other = (Turno) obj;
 		return idTurno == other.idTurno;
 	}
-
-	/*public boolean agregar(Cliente cliente){	
-		boolean agregar=false;
-		if (! (clientes.contains(cliente))) {
-			agregar=clientes.add(cliente);
-		}
-		return agregar;
-	}
-
-    public boolean eliminar(Cliente cliente){    	
-    	Cliente borrar = null;  
-    	boolean eliminar = false;
-    	Iterator<Cliente> it = clientes.iterator();
-        while ((it.hasNext()) && (borrar==null)){
-        	 Cliente c = it.next();
-             if (c.equals(cliente)) borrar = c;
-        }		
-		eliminar=clientes.remove(borrar);
-		return eliminar;
-	}*/
 
 	@Override
 	public String toString() {
