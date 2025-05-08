@@ -115,7 +115,6 @@ public class PersonaAbm {
 		//Si la persona es un cliente, va a traelo con su historial de turnos 
 		else if(p instanceof Cliente) {
 			p = PersonaDao.getInstance().traerClienteEHistorialTurnos(idPersona);
-
 		}
 		return p;
 
