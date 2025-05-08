@@ -3,7 +3,7 @@
 <hibernate-mapping>
   	<class name="datos.Turno" table="Turno">
 	    <id column="idTurno" name="idTurno">
-	      <generator class="identity"/>
+	      <generator class="increment"/> <!--No esta como AUTO INCREMENT EN LA DB-->
 	    </id>
 	    <property name="fecha" column="fecha" type="LocalDate" />
 	    <property name="hora" column="hora" type="LocalTime" />

@@ -13,11 +13,12 @@ public class Turno {
    private String servicio;
    private LocalDate fechaCreacion;
    private Empleado empleado;
+
    
    public Turno(){}
 
    public Turno(LocalDate fecha, LocalTime hora, String estado, String servicio, LocalDate fechaCreacion,
-			Empleado empleado) {
+			Empleado empleado, Cliente cliente) {
 		super();
 		this.fecha = fecha;
 		this.hora = hora;
@@ -25,6 +26,7 @@ public class Turno {
 		this.servicio = servicio;
 		this.fechaCreacion = fechaCreacion;
 		this.empleado = empleado;
+		
    }
 
 	public int getIdTurno() {
@@ -82,7 +84,8 @@ public class Turno {
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
 	}
-	
+
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(idTurno);
