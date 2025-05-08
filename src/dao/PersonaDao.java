@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.exception.ConstraintViolationException;
 
 import datos.Cliente;
 import datos.Empleado;
@@ -60,46 +59,12 @@ public class PersonaDao {
         return id;
     }
     
-    //Actualiza una persona en la base de datos sin relaciones asociadas.
+    //Actualiza una persona en la base de datos.
     public void actualizarPersona(Persona objeto) {
         try {
             iniciaOperacion();
             session.update(objeto);
             tx.commit();
-        } catch (HibernateException he) {
-            manejaExcepcion(he);
-            throw he;
-        } finally {
-            session.close();
-        }
-    }
-    
-    //Actualiza una persona y también las direcciones relacionadas (tabla intermedia).
-    public void actualizarPersonaConDirecciones(Persona persona) {
-        try {
-            iniciaOperacion();
-            session.update(persona); // actualiza persona y la tabla intermedia
-            tx.commit();
-        } catch (ConstraintViolationException e) {
-            tx.rollback();
-            throw new IllegalStateException("❌ Ya existe una relación entre ese persona y esa direccion.");
-        } catch (HibernateException he) {
-            manejaExcepcion(he);
-            throw he;
-        } finally {
-            session.close();
-        }
-    }
-    
-    //Actualiza un Cliente y su historial de turnos.
-    public void actualizarClienteConTurnos(Cliente cliente) {
-        try {
-            iniciaOperacion();
-            session.update(cliente); // actualiza cliente y la tabla intermedia
-            tx.commit();
-        } catch (ConstraintViolationException e) {
-            tx.rollback();
-            throw new IllegalStateException("❌ Ya existe una relación entre ese cliente y ese turno.");
         } catch (HibernateException he) {
             manejaExcepcion(he);
             throw he;

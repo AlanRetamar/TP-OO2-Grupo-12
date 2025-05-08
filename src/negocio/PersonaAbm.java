@@ -160,7 +160,7 @@ public class PersonaAbm {
 	    //Agrega el turno al historial de turnos del cliente
 	    cliente.agregar(turno);
 	    //Delega al DAO la persistencia
-	    PersonaDao.getInstance().actualizarClienteConTurnos(cliente); 
+	    PersonaDao.getInstance().actualizarPersona(cliente); 
 	}
 	
 	public void desvincularClienteDeTurno(int idCliente, int idTurno) {
@@ -183,7 +183,7 @@ public class PersonaAbm {
 	    //Elimina el turno del historial de turnos del cliente
 	    cliente.eliminar(turno);
 	    //Delega al DAO la persistencia
-	    PersonaDao.getInstance().actualizarClienteConTurnos(cliente); 
+	    PersonaDao.getInstance().actualizarPersona(cliente); 
 	}
 	
 	public void asignarPersonaADireccion(int idPersona, int idDireccion) {
@@ -211,7 +211,7 @@ public class PersonaAbm {
 	    //Agrega la direccion de la lista de direcciones del cliente
 	    persona.agregar(direccion);
 	    //Delega al DAO la persistencia
-	    PersonaDao.getInstance().actualizarPersonaConDirecciones(persona); 
+	    PersonaDao.getInstance().actualizarPersona(persona); 
 	}
 	
 	public void desvincularPersonaDeDireccion(int idPersona, int idDireccion) {
@@ -234,7 +234,7 @@ public class PersonaAbm {
 	    //Elimina la direccion de la lista de direcciones del cliente
 	    persona.eliminar(direccion);
 	    //Delega al DAO la persistencia
-	    PersonaDao.getInstance().actualizarPersonaConDirecciones(persona); 
+	    PersonaDao.getInstance().actualizarPersona(persona); 
 	}
 
 }
