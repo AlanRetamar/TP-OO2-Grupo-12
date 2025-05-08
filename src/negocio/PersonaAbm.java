@@ -208,7 +208,7 @@ public class PersonaAbm {
 	        throw new IllegalStateException("La persona con id " + idPersona + " ya está asignado a la direccion con id " + idDireccion + ".");
 	    }
 
-	    //Agrega la direccion a la lista de direcciones del cliente
+	    //Agrega la direccion de la lista de direcciones del cliente
 	    persona.getDirecciones().add(direccion);
 	    //Delega al DAO la persistencia
 	    PersonaDao.getInstance().actualizarPersonaConDirecciones(persona); 
@@ -231,7 +231,7 @@ public class PersonaAbm {
 	        throw new NullPointerException("Direccion con id " + idDireccion + " no existe.");
 	    }
 
-	    //Elimina la direccion a la lista de direcciones del cliente
+	    //Elimina la direccion de la lista de direcciones del cliente
 	    persona.getDirecciones().remove(direccion);
 	    //Delega al DAO la persistencia
 	    PersonaDao.getInstance().actualizarPersonaConDirecciones(persona); 
