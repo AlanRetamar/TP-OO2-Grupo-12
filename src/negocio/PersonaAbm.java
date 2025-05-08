@@ -158,7 +158,7 @@ public class PersonaAbm {
 	    }
 
 	    //Agrega el turno al historial de turnos del cliente
-	    cliente.getHistorialDeTurnos().add(turno);
+	    cliente.agregar(turno);
 	    //Delega al DAO la persistencia
 	    PersonaDao.getInstance().actualizarClienteConTurnos(cliente); 
 	}
@@ -181,7 +181,7 @@ public class PersonaAbm {
 	    }
 
 	    //Elimina el turno del historial de turnos del cliente
-	    cliente.getHistorialDeTurnos().remove(turno);
+	    cliente.eliminar(turno);
 	    //Delega al DAO la persistencia
 	    PersonaDao.getInstance().actualizarClienteConTurnos(cliente); 
 	}
@@ -209,7 +209,7 @@ public class PersonaAbm {
 	    }
 
 	    //Agrega la direccion de la lista de direcciones del cliente
-	    persona.getDirecciones().add(direccion);
+	    persona.agregar(direccion);
 	    //Delega al DAO la persistencia
 	    PersonaDao.getInstance().actualizarPersonaConDirecciones(persona); 
 	}
@@ -232,7 +232,7 @@ public class PersonaAbm {
 	    }
 
 	    //Elimina la direccion de la lista de direcciones del cliente
-	    persona.getDirecciones().remove(direccion);
+	    persona.eliminar(direccion);
 	    //Delega al DAO la persistencia
 	    PersonaDao.getInstance().actualizarPersonaConDirecciones(persona); 
 	}
