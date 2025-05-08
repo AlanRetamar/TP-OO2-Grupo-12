@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping SYSTEM "../hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
+	<!-- Mapeo de la clase Localidad a la tabla "Localidad" -->
   	<class name="datos.Localidad" table="Localidad">
+		<!-- Clave primaria: idLocalidad, generada automáticamente -->
 	    <id column="idLocalidad" name="idLocalidad">
 	      <generator class="identity"/>
 	    </id>
+	    <!-- Propiedad simple -->
 	    <property column="nombre" name="nombre" type="string"/>
+	    <!-- Relación muchos-a-uno: muchas localidades pertenecen a una sola provincia -->
 	    <many-to-one name="provincia" class="datos.Provincia" column="idProvincia" not-null="true"/>
+	    <!-- Relación uno-a-muchos entre Localidad y Direccion -->
+        <!-- Una localidad puede tener muchas direcciones -->
 	   	<set name="direcciones" cascade="save-update" table="direccion" order-by="idDireccion asc" inverse="true" lazy="true" fetch="join">
+			<!-- Clave foránea en Direccion que apunta a Localidad -->
 	        <key column="idLocalidad" not-null="true"  />
+	        <!-- Cada elemento del set es una instancia de la clase Direccion -->
 	        <one-to-many class="datos.Direccion" />
 	    </set>
 	</class>

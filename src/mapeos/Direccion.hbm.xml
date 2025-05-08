@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping SYSTEM "../hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
+	<!-- Mapeo de la clase Direccion a la tabla "Direccion" -->
   	<class name="datos.Direccion" table="Direccion">
+		 <!-- Clave primaria: idDireccion, generada automáticamente -->
 	    <id column="idDireccion" name="idDireccion">
 	      <generator class="identity"/>
 	    </id>
+	    <!-- Propiedades simples-->
 	    <property column="calle" name="calle" type="string"/>
 	    <property column="numero" name="numero" type="string"/>
+	    <!-- Relación muchos-a-uno: muchas direcciones pueden pertenecer a una misma localidad -->
 	    <many-to-one name="localidad" class="datos.Localidad" column="idLocalidad" not-null="false"/>
 	</class>
 </hibernate-mapping>
