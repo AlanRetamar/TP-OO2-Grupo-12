@@ -13,34 +13,42 @@ import datos.Empleado;
 import datos.Persona;
 
 public class PersonaDao {
+	//Se declara una Session y Transaction de Hibernate para manejar la base de datos.
 	private static Session session;
 	private Transaction tx;
+	//instancia es parte del patrón Singleton, que asegura que haya una única instancia de PersonaDao.
 	private static PersonaDao instancia = null; // Patrón Singleton
 
+	//Constructor protegido para evitar que otras clases instancien la clase directamente (por el Singleton)
 	protected PersonaDao() {
 	}
 
+	//Devuelve la única instancia de PersonaDao. Si no existe, la crea.
 	public static PersonaDao getInstance() {
 		if (instancia == null)
 			instancia = new PersonaDao();
 		return instancia;
 	}
 
+	//Inicia una sesión y transacción en Hibernate antes de ejecutar operaciones sobre la base de datos.
 	protected void iniciaOperacion() throws HibernateException {
 		session = HibernateUtil.getSessionFactory().openSession();
 		tx = session.beginTransaction();
 	}
 
+	//Método auxiliar para manejar errores y deshacer cambios si ocurre una excepción de Hibernate.
 	protected void manejaExcepcion(HibernateException he) throws HibernateException {
 		tx.rollback();
 		throw new HibernateException("ERROR en la capa de acceso a datos", he);
 	}
 	
+	//Agrega una nueva persona a la base de datos, hace commit si todo sale bien y cierra la sesión. 
+	//Lanza excepción si falla.
     public int agregarPersona(Persona objeto) {
         int id = 0;
         try {
             iniciaOperacion();
-            id = Integer.parseInt(session.save(objeto).toString());  // Esto lanzará ConstraintViolationException si se duplica el DNI
+            id = Integer.parseInt(session.save(objeto).toString()); // Devuelve el ID generado
             tx.commit();
         } catch (HibernateException he) {
             manejaExcepcion(he);
@@ -52,6 +60,7 @@ public class PersonaDao {
         return id;
     }
     
+    //Actualiza una persona en la base de datos sin relaciones asociadas.
     public void actualizarPersona(Persona objeto) {
         try {
             iniciaOperacion();
@@ -65,6 +74,7 @@ public class PersonaDao {
         }
     }
     
+    //Actualiza una persona y también las direcciones relacionadas (tabla intermedia).
     public void actualizarPersonaConDirecciones(Persona persona) {
         try {
             iniciaOperacion();
@@ -81,6 +91,7 @@ public class PersonaDao {
         }
     }
     
+    //Actualiza un Cliente y su historial de turnos.
     public void actualizarClienteConTurnos(Cliente cliente) {
         try {
             iniciaOperacion();
@@ -97,6 +108,7 @@ public class PersonaDao {
         }
     }
     
+    //Elimina una persona de la base de datos.
     public void eliminarPersona(Persona objeto) {
         try {
             iniciaOperacion();
@@ -110,6 +122,7 @@ public class PersonaDao {
         }
     }
 
+    //Trae una persona por ID.
 	public Persona traer(int idPersona) {
 		Persona objeto = null;
 		try {
@@ -122,6 +135,7 @@ public class PersonaDao {
 		return objeto;
 	}
 	
+	//Trae una persona por su DNI.
 	public Persona traerPersonaPorDni(int dni) {
 		Persona objeto = null;
 		try {
@@ -134,6 +148,7 @@ public class PersonaDao {
 		return objeto;
 	}
 	
+	//Trae una persona junto con sus direcciones, si no tiene direcciones trae una lista vacia
 	public Persona traerPersonaYDirecciones(int idPersona) {
 		Persona objeto = null;
         try {
@@ -148,7 +163,7 @@ public class PersonaDao {
         return objeto;
     }
 	
-
+    //Trae un cliente y sus turnos, si no tiene turnos trae una lista vacia
 	public Cliente traerClienteEHistorialTurnos(int idCliente) {
         Cliente objeto = null;
         try {
@@ -163,6 +178,7 @@ public class PersonaDao {
         return objeto;
     }
 	
+	//Trae un empleado y sus turnos, si no tiene turnos trae una lista vacia 
 	public Empleado traerEmpleadoYTurnos(int idEmpleado) {
 		Empleado objeto = null;
         try {
@@ -177,6 +193,7 @@ public class PersonaDao {
         return objeto;
     }
 	
+	//Trae una lista con todos los empleados y clientes con sus turnos.
 	public List<Persona> traer() throws HibernateException {
 		List<Persona> personas = new ArrayList<>();
 		try {
