@@ -119,6 +119,10 @@ public abstract class Persona {
 		return idPersona == other.idPersona;
 	}
 	
+	
+	/*Agrega una dirección a la colección direcciones solo si no está ya presente.
+	Evita duplicados manualmente.
+	Retorna true si la dirección fue agregada o false si ya existía.*/
 	public boolean agregar(Direccion direccion){	
 		boolean agregar=false;
 		if (! (direcciones.contains(direccion))) {
@@ -126,7 +130,12 @@ public abstract class Persona {
 		}
 		return agregar;
 	}
-
+	
+	
+	/*Recorre la colección direcciones buscando una dirección que sea igual a la pasada por parámetro 
+	  (usando equals), y si la encuentra, la elimina.
+	  Retorna true si se eliminó o false si no existe.
+	  */
     public boolean eliminar(Direccion direccion){    	
     	Direccion borrar = null;  
     	boolean eliminar = false;
