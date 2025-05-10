@@ -13,8 +13,9 @@
 	    <many-to-one name="provincia" class="datos.Provincia" column="idProvincia" not-null="true"/>
 	    <!-- Relación uno-a-muchos entre Localidad y Direccion -->
         <!-- Una localidad puede tener muchas direcciones -->
+        <!-- En este caso la relacion esta siendo bidireccional -->
 	   	<set name="direcciones" cascade="save-update" table="direccion" order-by="idDireccion asc" inverse="true" lazy="true" fetch="join">
-			<!-- Clave foránea en Direccion que apunta a Localidad -->
+			<!-- idLocalidad va a ser la clave foranea en la tabla Direccion -->
 	        <key column="idLocalidad" not-null="true"  />
 	        <!-- Cada elemento del set es una instancia de la clase Direccion -->
 	        <one-to-many class="datos.Direccion" />

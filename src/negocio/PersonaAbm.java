@@ -160,7 +160,7 @@ public class PersonaAbm {
 	        throw new IllegalStateException("El cliente con id " + idCliente + " ya está asignado al turno con id " + idTurno + ".");
 	    }
 
-	    //Agrega el turno al historial de turnos del cliente
+	    //Agrega el turno al historial de turnos del cliente en memoria
 	    cliente.agregar(turno);
 	    //Delega al DAO la persistencia
 	    PersonaDao.getInstance().actualizarPersona(cliente); 
@@ -183,7 +183,7 @@ public class PersonaAbm {
 	        throw new NullPointerException("Turno con id " + idTurno + " no existe.");
 	    }
 
-	    //Elimina el turno del historial de turnos del cliente
+	    //Elimina el turno del historial de turnos del cliente en memoria
 	    cliente.eliminar(turno);
 	    //Delega al DAO la persistencia
 	    PersonaDao.getInstance().actualizarPersona(cliente); 
@@ -214,7 +214,7 @@ public class PersonaAbm {
 	        throw new IllegalStateException("La persona con id " + idPersona + " ya está asignado a la direccion con id " + idDireccion + ".");
 	    }
 
-	    //Agrega la direccion de la lista de direcciones del cliente
+	    //Agrega la direccion de la lista de direcciones del cliente en memoria
 	    persona.agregar(direccion);
 	    //Delega al DAO la persistencia
 	    PersonaDao.getInstance().actualizarPersona(persona); 
@@ -237,7 +237,7 @@ public class PersonaAbm {
 	        throw new NullPointerException("Direccion con id " + idDireccion + " no existe.");
 	    }
 
-	    //Elimina la direccion de la lista de direcciones del cliente
+	    //Elimina la direccion de la lista de direcciones del cliente en memoria
 	    persona.eliminar(direccion);
 	    //Delega al DAO la persistencia
 	    PersonaDao.getInstance().actualizarPersona(persona); 

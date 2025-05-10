@@ -19,15 +19,16 @@
 		
 	    <!-- Relación muchos a muchos entre Persona y Direccion mediante tabla intermedia -->
 		<set name="direcciones" table="Persona_has_Direccion" cascade="all">
-			<!-- Clave foránea hacia Persona -->
+			<!-- idPersona y idDireccion en conjunto va a ser la clave primaria de Persona_has_Direccion que esta en la base de datos -->
+			<!-- idPersona va a ser la clave foranea en la tabla Persona_has_Direccion -->
 		    <key column="idPersona"/>
-		    <!-- Clave foránea hacia Direccion -->
+		    <!-- idDireccion va a ser la clave foranea en la tabla Persona_has_Direccion -->
 		    <many-to-many class="datos.Direccion" column="idDireccion"/>
 		</set>
 		
-		<!-- Subclase Empleado, tabla "Empleado", relacionada por clave foránea "idEmpleado" -->
+		<!-- Subclase Empleado, tabla "Empleado", joined-subclass indica que extiende de la tabla Persona -->
 		<joined-subclass name="datos.Empleado" table="Empleado">
-			<!-- Enlaza Empleado con Persona en la base de datos usando la columna idEmpleado como clave foránea -->
+			<!-- Indico que idEmpleado va a ser clave primaria y la vez clave foranea en la tabla Empleado -->
 			<key column="idEmpleado" />
 			<!-- Propiedades específicas de Empleado -->
 			<property name="fechaDeIngreso" column="fechaDeIngreso" type="LocalDate" />
@@ -36,24 +37,26 @@
 			
 			<!-- Relación one-to-many con Turno: un Empleado tiene muchos turnos -->
 		    <set name="turnos" cascade="save-update" table="turno" order-by="idTurno asc" inverse="true" lazy="true" fetch="join">
-				<!-- Clave foránea que conecta Turno con Empleado -->
+				<!-- idEmpleado va a ser la clave foranea en la tabla Turno -->
 	           <key column="idEmpleado" not-null="true"  />
+	           <!-- Cada elemento del set es una instancia de la clase Turno -->
 	           <one-to-many class="datos.Turno" />
 	        </set>
 		</joined-subclass>
 		
-		<!-- Subclase Cliente, tabla "Cliente", relacionada por clave foránea "idCliente" -->
+		<!-- Subclase Cliente, tabla "Cliente", joined-subclass indica que extiende de la tabla Persona -->
 		<joined-subclass name="datos.Cliente" table="Cliente">
-			<!-- Enlaza Cliente con Persona usando la columna idCliente como clave foránea -->
+			<!-- Indico que idCliente va a ser clave primaria y la vez clave foranea en la tabla Cliente -->
 			<key column="idCliente" />
 			<!-- Propiedad específica de Cliente -->
 			<property column="codigo" name="codigo" type="string" />
 			
 			<!-- Relación muchos a muchos entre Cliente y Turno usando tabla intermedia -->
 		   <set table="cliente_has_turno" name="historialDeTurnos" outer-join="true" fetch="join">
-			<!-- Clave foránea hacia Cliente -->
+			<!-- idCliente y idTurno en conjunto va a ser la clave primaria de cliente_has_turno que esta en la base de datos -->
+			<!-- idCliente va a ser la clave foranea en la tabla cliente_has_turno -->
 	         <key column="idCliente"/>
-	         <!-- Clave foránea hacia Turno -->
+	         <!-- idTurno va a ser la clave foranea en la tabla cliente_has_turno -->
 	         <many-to-many column="idTurno" class="datos.Turno"/>
 	       </set>
 		</joined-subclass>

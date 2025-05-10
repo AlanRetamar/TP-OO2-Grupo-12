@@ -12,7 +12,7 @@
 	    <!-- Relación uno-a-muchos entre Provincia y Localidad -->
         <!-- Una provincia tiene muchas localidades -->
 	   	<set name="localidades" cascade="save-update" table="Localidad" order-by="idLocalidad asc" inverse="true" lazy="true" fetch="join">
-			<!-- Clave foránea en Localidad que apunta a Provincia -->
+			<!-- idProvincia va a ser la clave foranea en la tabla Localidad -->
 	        <key column="idProvincia" not-null="true"  />
 	        <!-- Cada elemento del set es una instancia de la clase Localidad -->
 	        <one-to-many class="datos.Localidad" />

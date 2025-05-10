@@ -47,7 +47,9 @@ public class PersonaDao {
         int id = 0;
         try {
             iniciaOperacion();
+            //guarda el objeto en la base de datos
             id = Integer.parseInt(session.save(objeto).toString()); // Devuelve el ID generado
+            //si todo funciona correctamente se hace la transaccion, si no es asi se lanza la excepcion
             tx.commit();
         } catch (HibernateException he) {
             manejaExcepcion(he);
@@ -63,7 +65,9 @@ public class PersonaDao {
     public void actualizarPersona(Persona objeto) {
         try {
             iniciaOperacion();
+            //modifica el objeto en la base de datos
             session.update(objeto);
+            //si todo funciona correctamente se hace la transaccion, si no es asi se lanza la excepcion
             tx.commit();
         } catch (HibernateException he) {
             manejaExcepcion(he);
@@ -77,6 +81,8 @@ public class PersonaDao {
     public void eliminarPersona(Persona objeto) {
         try {
             iniciaOperacion();
+            //elimina el objeto de la base de datos
+            //si todo funciona correctamente se hace la transaccion, si no es asi se lanza la excepcion
             session.delete(objeto);
             tx.commit();
         } catch (HibernateException he) {
@@ -92,6 +98,8 @@ public class PersonaDao {
 		Persona objeto = null;
 		try {
 			iniciaOperacion();
+			//trae el objeto de la base de datos con el id indicado, el id tiene que ser clave primaria
+			//:idPersona es el id que paso por parametro
 			objeto = (Persona) session.createQuery("from Persona p where p.idPersona=:idPersona")
 						.setParameter("idPersona", idPersona).uniqueResult();
 		} finally {
@@ -105,6 +113,7 @@ public class PersonaDao {
 		Persona objeto = null;
 		try {
 			iniciaOperacion();
+			//trae el objeto de la base de datos con el dni indicado
 			objeto = (Persona) session.createQuery("from Persona p where p.dni=:dni")
 						.setParameter("dni", dni).uniqueResult();
 		} finally {
@@ -163,14 +172,21 @@ public class PersonaDao {
 		List<Persona> personas = new ArrayList<>();
 		try {
 			iniciaOperacion();
-			// solo si p es Empleado
+	
+			/*select distinct selecciona objetos de la entidad Empleado, 
+			asegurando que no se repitan (por ejemplo, si un empleado tiene varios turnos).*/
+			//Hace la consulta sobre la tabla (o clase) Empleado, con el alias e.
+			//El uso de fetch indica que quiere traer los turnos junto con el empleado, en la misma consulta.
+			//El left join permite que también se traigan empleados aunque no tengan turnos.
 			String hqlEmpleados = "select distinct e from Empleado e left join fetch e.turnos";
+			/*Se obtiene una lista con todas las instancias de la entidad Empleado que cumplan 
+			con la consulta definida en hqlEmpleados*/
 			List<Empleado> empleados = session.createQuery(hqlEmpleados, Empleado.class).list();
 			
-			// solo si p es Cliente
 			String hqlClientes = "select distinct c from Cliente c left join fetch c.historialDeTurnos";
 			List<Cliente> clientes = session.createQuery(hqlClientes, Cliente.class).list();
 
+			//agrega todos los empleados y clientes a la lista de personas
 			personas.addAll(empleados);
 			personas.addAll(clientes);
 		
