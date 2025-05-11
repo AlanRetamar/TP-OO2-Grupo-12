@@ -49,11 +49,4 @@ public class DireccionAbm {
 		return DireccionDao.getInstance().traer();
 	}
 
-	/*public Direccion traerDireccionYLocalidad(int idDireccion) {
-		Direccion d = traer(idDireccion);
-		if(d == null) {
-			throw new NullPointerException("La direccion con id " + idDireccion + " no existe");
-		}
-		return dao.traerDireccionYLocalidad(idDireccion);
-	}*/
 }

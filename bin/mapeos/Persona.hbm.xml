@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping SYSTEM "../hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
+	<!-- Clase base Persona, mapeada a la tabla "Persona" -->
 	<class name="datos.Persona" table="Persona">
+		<!-- Clave primaria con generación automática usando "identity" (autoincrement) -->
 		<id column="idPersona" name="idPersona">
 			<generator class="identity" />
 		</id>
 		
+		<!-- Propiedades simples de la clase Persona -->
 		<property name="nombre" column="nombre" type="string" />
 		<property name="apellido" column="apellido" type="string" />
 		<property name="dni" column="dni" type="int" />
@@ -13,29 +16,47 @@
 		<property name="email" column="email" type="string" />
 		<property name="telefono" column="telefono" type="string" />
 		<property name="contraseña" column="contraseña" type="string" />
+		
+	    <!-- Relación muchos a muchos entre Persona y Direccion mediante tabla intermedia -->
 		<set name="direcciones" table="Persona_has_Direccion" cascade="all">
+			<!-- idPersona y idDireccion en conjunto va a ser la clave primaria de Persona_has_Direccion que esta en la base de datos -->
+			<!-- idPersona va a ser la clave foranea en la tabla Persona_has_Direccion -->
 		    <key column="idPersona"/>
+		    <!-- idDireccion va a ser la clave foranea en la tabla Persona_has_Direccion -->
 		    <many-to-many class="datos.Direccion" column="idDireccion"/>
 		</set>
 		
+		<!-- Subclase Empleado, tabla "Empleado", joined-subclass indica que extiende de la tabla Persona -->
 		<joined-subclass name="datos.Empleado" table="Empleado">
+			<!-- Indico que idEmpleado va a ser clave primaria y la vez clave foranea en la tabla Empleado -->
 			<key column="idEmpleado" />
+			<!-- Propiedades específicas de Empleado -->
 			<property name="fechaDeIngreso" column="fechaDeIngreso" type="LocalDate" />
 			<property column="funcion" name="funcion" type="string" />
 			<property column="cuit" name="cuit" type="string" />
 			
+			<!-- Relación one-to-many con Turno: un Empleado tiene muchos turnos -->
 		    <set name="turnos" cascade="save-update" table="turno" order-by="idTurno asc" inverse="true" lazy="true" fetch="join">
+				<!-- idEmpleado va a ser la clave foranea en la tabla Turno -->
 	           <key column="idEmpleado" not-null="true"  />
+	           <!-- Cada elemento del set es una instancia de la clase Turno -->
 	           <one-to-many class="datos.Turno" />
 	        </set>
 		</joined-subclass>
 		
+		<!-- Subclase Cliente, tabla "Cliente", joined-subclass indica que extiende de la tabla Persona -->
 		<joined-subclass name="datos.Cliente" table="Cliente">
+			<!-- Indico que idCliente va a ser clave primaria y la vez clave foranea en la tabla Cliente -->
 			<key column="idCliente" />
+			<!-- Propiedad específica de Cliente -->
 			<property column="codigo" name="codigo" type="string" />
 			
+			<!-- Relación muchos a muchos entre Cliente y Turno usando tabla intermedia -->
 		   <set table="cliente_has_turno" name="historialDeTurnos" outer-join="true" fetch="join">
+			<!-- idCliente y idTurno en conjunto va a ser la clave primaria de cliente_has_turno que esta en la base de datos -->
+			<!-- idCliente va a ser la clave foranea en la tabla cliente_has_turno -->
 	         <key column="idCliente"/>
+	         <!-- idTurno va a ser la clave foranea en la tabla cliente_has_turno -->
 	         <many-to-many column="idTurno" class="datos.Turno"/>
 	       </set>
 		</joined-subclass>

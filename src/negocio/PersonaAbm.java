@@ -153,14 +153,17 @@ public class PersonaAbm {
 	    }
 
 	    //si el cliente en su historial de turnos ya contiene ese turno se lanzara la excepcion
+	    //Se necesita saber si el turno ya existe en el Set. Para eso, internamente llama a:
+	    //equals() → para comparar objetos.
+	    //hashCode() → (solo si es un Set o Map) para ubicar el objeto en la estructura de datos.
 	    if (cliente.getHistorialDeTurnos().contains(turno)) {
 	        throw new IllegalStateException("El cliente con id " + idCliente + " ya está asignado al turno con id " + idTurno + ".");
 	    }
 
-	    //Agrega el turno al historial de turnos del cliente
-	    cliente.getHistorialDeTurnos().add(turno);
+	    //Agrega el turno al historial de turnos del cliente en memoria
+	    cliente.agregar(turno);
 	    //Delega al DAO la persistencia
-	    PersonaDao.getInstance().actualizarClienteConTurnos(cliente); 
+	    PersonaDao.getInstance().actualizarPersona(cliente); 
 	}
 	
 	public void desvincularClienteDeTurno(int idCliente, int idTurno) {
@@ -180,10 +183,10 @@ public class PersonaAbm {
 	        throw new NullPointerException("Turno con id " + idTurno + " no existe.");
 	    }
 
-	    //Elimina el turno del historial de turnos del cliente
-	    cliente.getHistorialDeTurnos().remove(turno);
+	    //Elimina el turno del historial de turnos del cliente en memoria
+	    cliente.eliminar(turno);
 	    //Delega al DAO la persistencia
-	    PersonaDao.getInstance().actualizarClienteConTurnos(cliente); 
+	    PersonaDao.getInstance().actualizarPersona(cliente); 
 	}
 	
 	public void asignarPersonaADireccion(int idPersona, int idDireccion) {
@@ -204,14 +207,17 @@ public class PersonaAbm {
 	    }
 
 	    //si la persona ya contiene esa direccion se lanzara la excepcion
+	    //Se necesita saber si direccion ya existe en el Set. Para eso, internamente llama a:
+	    //equals() → para comparar objetos.
+	    //hashCode() → (solo si es un Set o Map) para ubicar el objeto en la estructura de datos.
 	    if (persona.getDirecciones().contains(direccion)) {
 	        throw new IllegalStateException("La persona con id " + idPersona + " ya está asignado a la direccion con id " + idDireccion + ".");
 	    }
 
-	    //Agrega la direccion a la lista de direcciones del cliente
-	    persona.getDirecciones().add(direccion);
+	    //Agrega la direccion de la lista de direcciones del cliente en memoria
+	    persona.agregar(direccion);
 	    //Delega al DAO la persistencia
-	    PersonaDao.getInstance().actualizarPersonaConDirecciones(persona); 
+	    PersonaDao.getInstance().actualizarPersona(persona); 
 	}
 	
 	public void desvincularPersonaDeDireccion(int idPersona, int idDireccion) {
@@ -231,10 +237,10 @@ public class PersonaAbm {
 	        throw new NullPointerException("Direccion con id " + idDireccion + " no existe.");
 	    }
 
-	    //Elimina la direccion a la lista de direcciones del cliente
-	    persona.getDirecciones().remove(direccion);
+	    //Elimina la direccion de la lista de direcciones del cliente en memoria
+	    persona.eliminar(direccion);
 	    //Delega al DAO la persistencia
-	    PersonaDao.getInstance().actualizarPersonaConDirecciones(persona); 
+	    PersonaDao.getInstance().actualizarPersona(persona); 
 	}
 
 }

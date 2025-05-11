@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping SYSTEM "../hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
+	<!-- Mapeo de la clase Provincia a la tabla "Provincia" -->
   	<class name="datos.Provincia" table="Provincia">
+		<!-- Clave primaria: idProvincia, generada automáticamente (auto-increment) -->
 	    <id column="idProvincia" name="idProvincia">
 	      <generator class="identity"/>
 	    </id>
+	    <!-- Propiedad simple-->
 	    <property column="nombre" name="nombre" type="string"/>
+	    <!-- Relación uno-a-muchos entre Provincia y Localidad -->
+        <!-- Una provincia tiene muchas localidades -->
 	   	<set name="localidades" cascade="save-update" table="Localidad" order-by="idLocalidad asc" inverse="true" lazy="true" fetch="join">
+			<!-- idProvincia va a ser la clave foranea en la tabla Localidad -->
 	        <key column="idProvincia" not-null="true"  />
+	        <!-- Cada elemento del set es una instancia de la clase Localidad -->
 	        <one-to-many class="datos.Localidad" />
 	    </set>
 	</class>

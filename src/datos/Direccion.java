@@ -49,6 +49,8 @@ public class Direccion {
 		this.localidad = localidad;
 	}
 	
+	
+	//Se utiliza hashCode e equals para que funcione el metodo contains
 	@Override
 	public int hashCode() {
 		return Objects.hash(idDireccion);
