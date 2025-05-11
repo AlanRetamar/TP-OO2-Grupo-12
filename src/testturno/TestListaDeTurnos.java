@@ -2,34 +2,24 @@ package testturno;
 
 import java.util.List;
 
-import datos.Persona;
-import datos.Cliente;
-import datos.Empleado;
 import datos.Turno;
-import negocio.PersonaAbm;
+import negocio.TurnoAbm;
 
 public class TestListaDeTurnos {
 
 	public static void main(String[] args) {
 
-		List<Persona> personas = PersonaAbm.getInstance().traer(); 
+		List<Turno> turnos = TurnoAbm.getInstance().traer();
 
-		for (Persona persona : personas) {
-			System.out.println(persona); 
+		if (turnos.isEmpty()) {
+			System.out.println("No hay turnos registrados");
+			return;
+		}
 
-			if (persona instanceof Empleado) {
-				Empleado empleado = (Empleado) persona;
-				for (Turno turno : empleado.getTurnos()) {
-					System.out.println("\tTurno como empleado: " + turno);
-				}
-			}
+		System.out.println("LISTADO DE TURNOS");
 
-			if (persona instanceof Cliente) {
-				Cliente cliente = (Cliente) persona;
-				for (Turno turno : cliente.getHistorialDeTurnos()) {
-					System.out.println("\tTurno como cliente: " + turno);
-				}
-			}
+		for (Turno turno : turnos) {
+			System.out.println(turno);
 		}
 	}
 }

@@ -67,12 +67,6 @@ public class TurnoAbm {
 		return TurnoDao.getInstance().traerTurnosPorEmpleado(idEmpleado);
 	}
 
-	public List<Turno> traerTurnosPorCliente(int idCliente) {
-		if (idCliente <= 0) {
-			throw new IllegalArgumentException("El ID del cliente debe ser mayor a cero.");
-		}
-		return TurnoDao.getInstance().traerTurnosPorCliente(idCliente);
-	}
 
 	public List<Turno> traerTurnosPorServicio(String servicio) {
 		return TurnoDao.getInstance().traerTurnosPorServicio(servicio);

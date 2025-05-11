@@ -150,19 +150,6 @@ public class TurnoDao {
         return lista;
     }
 
-    public List<Turno> traerTurnosPorCliente(int idCliente) {
-        List<Turno> lista = null;
-        try {
-            iniciaOperacion();
-            String hql = "from Turno t where t.cliente.idPersona = :idCliente";
-            lista = session.createQuery(hql, Turno.class)
-                    .setParameter("idCliente", idCliente)
-                    .list();
-        } finally {
-            session.close();
-        }
-        return lista;
-    }
 
     public List<Turno> traerTurnosPorEmpleado(int idEmpleado) {
         List<Turno> lista = null;
