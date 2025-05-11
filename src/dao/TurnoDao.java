@@ -32,7 +32,8 @@ public class TurnoDao {
         tx.rollback();
         throw new HibernateException("ERROR en la capa de acceso a datos", he);
     }
-
+	//Agrega un nuevo turno a la base de datos, hace commit si todo sale bien y cierra la sesión. 
+	//Lanza excepción si falla.
     public int agregarTurno(Turno turno) {
         int id = 0;
         try {
@@ -47,7 +48,7 @@ public class TurnoDao {
         }
         return id;
     }
-
+  //Actualiza un turno en la base de datos.
     public void actualizarTurno(Turno turno) {
         try {
             iniciaOperacion();
@@ -60,7 +61,7 @@ public class TurnoDao {
             session.close();
         }
     }
-
+  //Elimina un turno de la base de datos.
     public void eliminarTurno(Turno turno) {
         try {
             iniciaOperacion();
@@ -73,32 +74,20 @@ public class TurnoDao {
             session.close();
         }
     }
+  //Trae un turno por ID.
+  	public Turno traerTurno(int idTurno) {
+		Turno objeto = null;
+		try {
+			iniciaOperacion();
+			objeto = (Turno) session.createQuery("from Turno t where t.idTurno=:idTurno")
+						.setParameter("idTurno", idTurno).uniqueResult();
+		} finally {
+			session.close();
+		}
+		return objeto;
+	}
 
-    public Turno traer(int idTurno) {
-        Turno turno = null;
-        try {
-            iniciaOperacion();
-            turno = session.get(Turno.class, idTurno);
-        } finally {
-            session.close();
-        }
-        return turno;
-    }
-
-    public Turno traerTurnoConClienteYEmpleado(int idTurno) {
-        Turno turno = null;
-        try {
-            iniciaOperacion();
-            String hql = "from Turno t left join fetch t.cliente left join fetch t.empleado where t.idTurno = :idTurno";
-            turno = (Turno) session.createQuery(hql)
-                    .setParameter("idTurno", idTurno)
-                    .uniqueResult();
-        } finally {
-            session.close();
-        }
-        return turno;
-    }
-
+  //Trae todos los turnos
     public List<Turno> traerTodos() {
         List<Turno> lista = null;
         try {
@@ -110,7 +99,7 @@ public class TurnoDao {
         }
         return lista;
     }
-
+    //Turnos por fecha
     public List<Turno> traerTurnosPorFecha(LocalDate fecha) {
         List<Turno> lista = null;
         try {
@@ -123,7 +112,7 @@ public class TurnoDao {
         }
         return lista;
     }
-
+    //Turnos por estado
     public List<Turno> traerTurnosPorEstado(String estado) {
         List<Turno> lista = null;
         try {
@@ -136,7 +125,7 @@ public class TurnoDao {
         }
         return lista;
     }
-
+    //Turnos por servicio
     public List<Turno> traerTurnosPorServicio(String servicio) {
         List<Turno> lista = null;
         try {
@@ -150,7 +139,7 @@ public class TurnoDao {
         return lista;
     }
 
-
+    //Turnos por empleado
     public List<Turno> traerTurnosPorEmpleado(int idEmpleado) {
         List<Turno> lista = null;
         try {
@@ -164,15 +153,5 @@ public class TurnoDao {
         }
         return lista;
     }
-  	public Turno traerTurno(int idTurno) {
-		Turno objeto = null;
-		try {
-			iniciaOperacion();
-			objeto = (Turno) session.createQuery("from Turno t where t.idTurno=:idTurno")
-						.setParameter("idTurno", idTurno).uniqueResult();
-		} finally {
-			session.close();
-		}
-		return objeto;
-	}
+
 }
