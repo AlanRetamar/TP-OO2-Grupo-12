@@ -8,8 +8,7 @@ public class TestCancelarTurno {
 	public static void main(String[] args) {
 		TurnoAbm abm = TurnoAbm.getInstance();
 
-		int idTurno = 1; // ID del turno a cancelar (ajustalo según tu BD)
-
+		int idTurno = 1; // ID del turno a cancelar 
 		try {
 			Turno turno = abm.traerTurno(idTurno);
 

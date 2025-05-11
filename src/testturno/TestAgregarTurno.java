@@ -15,7 +15,7 @@ public class TestAgregarTurno {
 		TurnoAbm turnoAbm = TurnoAbm.getInstance();
 		PersonaAbm personaAbm = PersonaAbm.getInstance();
 
-		// Trae el cliente y el empleado ya existentes (asegúrate de tenerlos en la BD)
+		// Trae el cliente y el empleado ya existentes 
 		Cliente cliente = personaAbm.traerCliente(1);
 		Empleado empleado = personaAbm.traerEmpleado(2);
 
