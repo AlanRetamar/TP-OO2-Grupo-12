@@ -18,7 +18,7 @@ public class Turno {
    public Turno(){}
 
    public Turno(LocalDate fecha, LocalTime hora, String estado, String servicio, LocalDate fechaCreacion,
-			Empleado empleado, Cliente cliente) {
+			Empleado empleado) {
 		super();
 		this.fecha = fecha;
 		this.hora = hora;
