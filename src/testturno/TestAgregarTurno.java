@@ -20,7 +20,7 @@ public class TestAgregarTurno {
 		Empleado empleado = personaAbm.traerEmpleado(2);
 
 		// Crear el turno
-		Turno turno = new Turno(LocalDate.now().plusDays(1), LocalTime.of(9, 30),"pendiente", "Consulta general", LocalDate.now(), empleado, cliente);
+		Turno turno = new Turno(LocalDate.now().plusDays(1), LocalTime.of(9, 30),"pendiente", "Consulta general", LocalDate.now(), empleado);
 
 		// Agregar el turno
 		int idTurno = turnoAbm.agregarTurno(turno);
