@@ -14,7 +14,7 @@ public class TestAgregarCliente {
 		Cliente c = new Cliente("Luis", "Martinez", 90552881, LocalDate.of(1989, 03, 23), "martinez@gmail.com", "1124754590", "ramon94", "9314");
 		int idC = abm.agregarPersona(c);
 		System.out.println("Cliente agregado con ID: " + idC);
-	}
+	}	
 	
 
 	//String nombre, String apellido, int dni, LocalDate fechaDeNacimiento, String email, String telefono,

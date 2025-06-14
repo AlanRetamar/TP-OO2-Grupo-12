@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import datos.Localidad;
+import datos.Persona;
 
 public class LocalidadDao {
 	private static Session session;
@@ -83,6 +84,18 @@ public class LocalidadDao {
 		}
 		return objeto;
 	}
+
+	public Localidad traerLocalidad(String nombre) {
+		Localidad objeto = null;
+		try {
+			iniciaOperacion();
+			objeto = (Localidad) session.createQuery("from Localidad l where l.nombre=:nombre")
+					.setParameter("nombre", nombre).uniqueResult();
+		} finally {
+			session.close();
+		}
+		return objeto;
+	}
 	
 	public List<Localidad> traer() throws HibernateException {
 		List<Localidad> lista = null;
@@ -102,6 +115,20 @@ public class LocalidadDao {
             iniciaOperacion();            
             String hql = "from Localidad l left join fetch l.direcciones where l.idLocalidad=:idLocalidad";            
             objeto=(Localidad) session.createQuery(hql).setParameter("idLocalidad", idLocalidad).uniqueResult();
+         
+        }
+ 		finally {
+ 			session.close();
+        }
+        return objeto;
+    }
+	
+	public Localidad traerLocalidadYDirecciones(String nombre) throws HibernateException {
+		Localidad objeto = null;
+        try {
+            iniciaOperacion();            
+            String hql = "from Localidad l left join fetch l.direcciones where l.nombre=:nombre";            
+            objeto=(Localidad) session.createQuery(hql).setParameter("nombre", nombre).uniqueResult();
          
         }
  		finally {

@@ -6,6 +6,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import datos.Localidad;
 import datos.Provincia;
 
 public class ProvinciaDao {
@@ -84,6 +85,18 @@ public class ProvinciaDao {
 		return objeto;
 	}
 	
+	public Provincia traerProvincia(String nombre) {
+		Provincia objeto = null;
+		try {
+			iniciaOperacion();
+			objeto = (Provincia) session.createQuery("from Provincia p where p.nombre=:nombre")
+					.setParameter("nombre", nombre).uniqueResult();
+		} finally {
+			session.close();
+		}
+		return objeto;
+	}
+	
 	public List<Provincia> traer() throws HibernateException {
 		List<Provincia> lista = null;
 		try {
@@ -102,6 +115,20 @@ public class ProvinciaDao {
             iniciaOperacion();            
             String hql = "from Provincia p left join fetch p.localidades where p.idProvincia=:idProvincia";            
             objeto=(Provincia) session.createQuery(hql).setParameter("idProvincia", idProvincia).uniqueResult();
+         
+        }
+ 		finally {
+ 			session.close();
+        }
+        return objeto;
+    }
+	
+	public Provincia traerProvinciaYLocalidades(String nombre) throws HibernateException {
+		Provincia objeto = null;
+        try {
+            iniciaOperacion();            
+            String hql = "from Provincia p left join fetch p.localidades where p.nombre=:nombre";            
+            objeto=(Provincia) session.createQuery(hql).setParameter("nombre", nombre).uniqueResult();
          
         }
  		finally {

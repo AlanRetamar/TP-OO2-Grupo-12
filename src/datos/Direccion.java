@@ -70,7 +70,8 @@ public class Direccion {
 
 	@Override
 	public String toString() {
-		return "Direccion [idDireccion=" + idDireccion + ", calle=" + calle + ", numero=" + numero + "]";
+		return "Direccion [idDireccion=" + idDireccion + ", calle=" + calle + ", numero=" + numero + ", Localidad: "
+				+ localidad.getNombre()+ ", Provincia: " + localidad.getProvincia().getNombre() + "]";
 	}
 	
 	

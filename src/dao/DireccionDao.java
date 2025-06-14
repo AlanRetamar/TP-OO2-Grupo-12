@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import datos.Direccion;
+import datos.Localidad;
 
 public class DireccionDao {
 	private static Session session;
@@ -84,6 +85,18 @@ public class DireccionDao {
 		}
 		return objeto;
 	}
+	
+	public Direccion traer(String calle, String numero) {
+		Direccion objeto = null;
+		try {
+			iniciaOperacion();
+			objeto = (Direccion) session.createQuery("from Direccion d where d.calle=:calle and d.numero=:numero")
+					.setParameter("calle", calle).setParameter("numero", numero).uniqueResult();
+		} finally {
+			session.close();
+		}
+		return objeto;
+	}
 
 	public List<Direccion> traer() throws HibernateException {
 		List<Direccion> lista = null;
@@ -105,6 +118,19 @@ public class DireccionDao {
 			iniciaOperacion();
 			String hql = "from Direccion d left join fetch d.localidad where d.idDireccion = :idDireccion";
 			objeto = (Direccion) session.createQuery(hql).setParameter("idDireccion", idDireccion).uniqueResult();
+
+		} finally {
+			session.close();
+		}
+		return objeto;
+	}
+	
+	public Direccion traerDireccionConLocalidadYProvincia(String calle, String numero) {
+		Direccion objeto=null;
+		try {
+			iniciaOperacion();
+			String hql = "from Direccion d left join fetch d.localidad l left join fetch l.provincia where d.calle = :calle and d.numero = :numero";
+			objeto = (Direccion) session.createQuery(hql).setParameter("calle", calle).setParameter("numero", numero).uniqueResult();
 
 		} finally {
 			session.close();

@@ -13,7 +13,7 @@ import datos.Turno;
 public class PersonaAbm {
 	private static PersonaAbm instancia = null; // Patrón Singleton
 
-	protected PersonaAbm() {
+	public PersonaAbm() {
 	}
 
 	public static PersonaAbm getInstance() {
@@ -69,6 +69,36 @@ public class PersonaAbm {
 		PersonaDao.getInstance().eliminarPersona(p);
 	}
 	
+	public void eliminarPersonaDni(int dni) {
+		//Trae a la persona por id
+		Persona p = PersonaDao.getInstance().traerPersonaDniYDirecciones(dni);
+		//Si la persona es null lanzara la excepcion
+		if (p == null) throw new NullPointerException("La persona con el dni:  " + dni + " no existe.");
+		
+		if(p.getDirecciones() != null && !p.getDirecciones().isEmpty()) {
+			throw new IllegalStateException("La persona no se puede eliminar porque tiene tiene direcciones");
+	    }
+		
+		//Si la persona es un empleado, si tiene turnos va a lanzar la excepcion 
+		if(p instanceof Empleado) {
+			Empleado e = PersonaDao.getInstance().traerEmpleadoDniYTurnos(dni);
+			if(e.getTurnos() != null && !e.getTurnos().isEmpty()) {
+				throw new IllegalStateException("El empleado no se puede eliminar porque tiene tiene turnos");
+		    }
+		}
+		//Si la persona es un cliente, si tiene historial de turnos va a lanzar la excepcion
+		else if(p instanceof Cliente) {
+			Cliente c = PersonaDao.getInstance().traerClienteDniEHistorialTurnos(dni);
+			if(c.getHistorialDeTurnos() != null && !c.getHistorialDeTurnos().isEmpty()) {
+				throw new IllegalStateException("El cliente no se puede eliminar porque tiene tiene turnos");
+		    }
+		}
+		
+		PersonaDao.getInstance().eliminarPersona(p);
+	}
+	
+	
+	
 	public Empleado traerEmpleado(int idPersona) {
 		//Trae a la persona por id
 	    Persona e = PersonaDao.getInstance().traer(idPersona);
@@ -101,6 +131,32 @@ public class PersonaAbm {
 	    return (Cliente) c;
 	}
 	
+	public Cliente traerClientePorDni(int dni) {
+		Persona c= PersonaDao.getInstance().traerPersonaPorDni(dni);
+		
+		if (c==null) {
+	        throw new NullPointerException("No existe el cliente con el dni: " + dni);
+		}
+		
+	    if (!(c instanceof Cliente)) {
+	        throw new IllegalArgumentException("La persona con el dni: " + dni + " no es un cliente");
+	    }
+		return (Cliente) c;
+	}
+	
+	public Persona traerPersonaYDireccion(int dni) {
+		Persona p = PersonaAbm.getInstance().traerPersonaPorDni(dni);
+		
+		if(p == null)
+			throw new NullPointerException("La persona con el dni: " + dni + " no existe");
+		if(p instanceof Empleado) 
+		    p = PersonaDao.getInstance().traerEmpleadoDniYDireccion(dni);
+		else if(p instanceof Cliente) 
+			p = PersonaDao.getInstance().traerClienteDniYDireccion(dni);
+		
+		return p;
+	}
+	
 	public Persona traerPersonaYTurnos(int idPersona) {
 		//Trae a la persona por id
 		Persona p = PersonaAbm.getInstance().traerPersona(idPersona);
@@ -120,6 +176,16 @@ public class PersonaAbm {
 
 	}
 
+	
+	public Persona traerPersonaPorDni(int dni) {
+		//Trae a la persona por id
+		Persona p = PersonaDao.getInstance().traerPersonaPorDni(dni);
+		//Si la persona es null lanzara la excepcion
+		if(p == null) {
+			throw new NullPointerException("La persona con el dni:" + dni + " no existe");
+		}
+		return p;
+	}
 	public Persona traerPersona(int idPersona) {
 		//Trae a la persona por id
 		Persona p = PersonaDao.getInstance().traer(idPersona);
@@ -219,7 +285,30 @@ public class PersonaAbm {
 	    //Delega al DAO la persistencia
 	    PersonaDao.getInstance().actualizarPersona(persona); 
 	}
-	
+
+	public void asignarPersonaADireccion(int dni, String calle, String numero) {
+
+	    Persona persona =  PersonaDao.getInstance().traerPersonaDniYDirecciones(dni);
+
+	    if (persona == null) {
+	        throw new NullPointerException("Persona con dni " + dni + " no existe.");
+	    }
+
+	    Direccion direccion = DireccionAbm.getInstance().traerDireccion(calle, numero); 
+
+	    if (direccion == null) {
+	        throw new NullPointerException("La direccion " + calle +" "+ numero + " no existe.");
+	    }
+
+
+	    if (persona.getDirecciones().contains(direccion)) {
+	        throw new IllegalStateException("La persona con dni " + dni + " ya está asignado a la direccion " + calle + " " + numero + ".");
+	    }
+
+	    persona.agregar(direccion);
+
+	    PersonaDao.getInstance().actualizarPersona(persona); 
+	}
 	public void desvincularPersonaDeDireccion(int idPersona, int idDireccion) {
 		//Trae a la persona con todas sus direcciones
 	    Persona persona =  PersonaDao.getInstance().traerPersonaYDirecciones(idPersona);
@@ -241,6 +330,10 @@ public class PersonaAbm {
 	    persona.eliminar(direccion);
 	    //Delega al DAO la persistencia
 	    PersonaDao.getInstance().actualizarPersona(persona); 
+	}
+	
+	public List<Persona> traerPorLocalidad(String nombre){
+		return PersonaDao.getInstance().traerPorLocalidad(nombre);
 	}
 
 }

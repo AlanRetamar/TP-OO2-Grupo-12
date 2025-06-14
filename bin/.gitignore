@@ -1,9 +1,4 @@
-/dao/
-/datos/
-/mapeos/
 /negocio/
-/testdireccion/
-/testlocalidad/
+/dao/
 /testpersona/
-/testprovincia/
-/testturno/
+/datos/

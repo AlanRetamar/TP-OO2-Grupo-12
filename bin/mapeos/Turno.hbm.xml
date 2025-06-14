@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping SYSTEM "../hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
+<!-- Mapeo de la clase Turno a la tabla "Turno" -->
   	<class name="datos.Turno" table="Turno">
+  	<!-- Clave primaria: idTurno -->
 	    <id column="idTurno" name="idTurno">
 	      <generator class="increment"/> <!--No esta como AUTO INCREMENT EN LA DB-->
 	    </id>
@@ -11,11 +13,7 @@
 	    <property column="servicio" name="servicio" type="string"/>
 	    <property name="fechaCreacion" column="fechaCreacion" type="LocalDate" />
 	    
-	    <!--<set table="cliente_has_turno" name="clientes" outer-join="true">
-	       <key column="idTurno"/>
-	       <many-to-many column="idCliente" class="datos.Cliente"/>
-	   </set>-->
-	    
+<!-- Relación muchos-a-uno: muchos turnos pueden tener un empleado  -->
 	    <many-to-one name="empleado" class="datos.Empleado" column="idEmpleado" not-null="true"/>
 	</class>
 </hibernate-mapping>

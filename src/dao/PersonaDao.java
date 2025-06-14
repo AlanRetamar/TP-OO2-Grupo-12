@@ -137,6 +137,20 @@ public class PersonaDao {
         return objeto;
     }
 	
+	public Persona traerPersonaDniYDirecciones(int dni) {
+		Persona objeto = null;
+        try {
+            iniciaOperacion();            
+            String hql = "from datos.Persona p left join fetch p.direcciones where p.dni=:dni";            
+            objeto=(Persona) session.createQuery(hql).setParameter("dni", dni).uniqueResult();
+         
+        }
+ 		finally {
+ 			session.close();
+        }
+        return objeto;
+    }
+	
     //Trae un cliente y sus turnos, si no tiene turnos trae una lista vacia
 	public Cliente traerClienteEHistorialTurnos(int idCliente) {
         Cliente objeto = null;
@@ -144,6 +158,20 @@ public class PersonaDao {
             iniciaOperacion();            
             String hql = "from datos.Cliente c left join fetch c.historialDeTurnos where c.idPersona=:idCliente";            
             objeto=(Cliente) session.createQuery(hql).setParameter("idCliente", idCliente).uniqueResult();
+         
+        }
+ 		finally {
+ 			session.close();
+        }
+        return objeto;
+    }
+	
+	public Cliente traerClienteDniEHistorialTurnos(int dni) {
+        Cliente objeto = null;
+        try {
+            iniciaOperacion();            
+            String hql = "from datos.Cliente c left join fetch c.historialDeTurnos where c.dni=:dni";            
+            objeto=(Cliente) session.createQuery(hql).setParameter("dni", dni).uniqueResult();
          
         }
  		finally {
@@ -166,6 +194,48 @@ public class PersonaDao {
         }
         return objeto;
     }
+	
+	public Empleado traerEmpleadoDniYTurnos(int dni) {
+		Empleado objeto = null;
+        try {
+            iniciaOperacion();            
+            String hql = "from datos.Empleado e left join fetch e.turnos where e.dni=:dni";            
+            objeto=(Empleado) session.createQuery(hql).setParameter("dni", dni).uniqueResult();
+         
+        }
+ 		finally {
+ 			session.close();
+        }
+        return objeto;
+    }
+	
+	public Empleado traerEmpleadoDniYDireccion(int dni) {
+		Empleado objeto= null;
+        try {
+            iniciaOperacion();            
+            String hql = "select e from Empleado left join fetch e.direccion left join fetch d.localidad left join fetch l.provincia where e.dni = :dni";            
+            objeto=(Empleado) session.createQuery(hql).setParameter("dni",dni ).uniqueResult();
+         
+        }
+ 		finally {
+ 			session.close();
+        }
+        return objeto;
+	}
+	
+	public Cliente traerClienteDniYDireccion(int dni) {
+		Cliente objeto= null;
+        try {
+            iniciaOperacion();            
+            String hql = "select e from Empleado left join fetch e.direccion left join fetch d.localidad left join fetch l.provincia where e.dni = :dni";            
+            objeto=(Cliente) session.createQuery(hql).setParameter("dni",dni ).uniqueResult();
+         
+        }
+ 		finally {
+ 			session.close();
+        }
+        return objeto;
+	}
 	
 	//Trae una lista con todos los empleados y clientes con sus turnos.
 	public List<Persona> traer() throws HibernateException {
@@ -195,4 +265,23 @@ public class PersonaDao {
 		}
 		return personas;
 	}
+	
+	public List<Persona> traerPorLocalidad(String nombre) {
+	    List<Persona> lista = new ArrayList<>();
+	    try {
+	        iniciaOperacion();
+	        String hql = "select distinct p from Persona p " +
+                    "left join fetch p.direcciones d " +
+                    "left join fetch d.localidad l " +
+                    "left join fetch l.provincia " +
+                    "where l.nombre = :nombre";
+	        lista = session.createQuery(hql, Persona.class)
+	                       .setParameter("nombre", nombre)
+	                       .getResultList();
+	    } finally {
+	            session.close();
+	    }
+	    return lista;
+	}
+
 }

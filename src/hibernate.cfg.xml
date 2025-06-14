@@ -2,10 +2,10 @@
 <!DOCTYPE hibernate-configuration SYSTEM "hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="connection.url">jdbc:mysql://localhost/mydb?serverTimezone=GMT-3</property>
+    <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+<property name="connection.url">jdbc:mysql://localhost:3306/mydb?useSSL=false&amp;serverTimezone=America/Argentina/Buenos_Aires</property>
     <property name="connection.username">root</property>
-    <property name="connection.password">1234</property>
+    <property name="connection.password">tumitumi1</property>
     <property name="connection.pool_size">1</property>
     <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="show_sql">false</property>    <!-- en true muestra hql en consola-->
